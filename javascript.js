@@ -1,5 +1,7 @@
 let playerSelection;
 let computerSelection;
+let playerPoints = 0;
+let computerPoints = 0;
 function getComputerChoice(){
     const choices = ["rock","paper","scissors"];
     return choices[Math.floor(Math.random()*choices.length)];
@@ -25,35 +27,49 @@ function playRound(playerSelection, computerSelection){
     }
     else if (playerSelection=="rock"){
         if (computerSelection=="scissors"){
+            playerPoints++;
             return ("Player wins! Rock beats scissors");
+            
         }
         else {
+            computerPoints++;
             return ("Computer wins! Paper beats Rock");
         }
     }
     else if (playerSelection=="paper"){
         if (computerSelection=="rock"){
+            playerPoints++;
             return ("Player wins! Paper beats Rock");
         }
         else {
+            computerPoints++;
             return ("Computer wins! Scissors beats Paper");
         }
     }
     else if (playerSelection=="scissors"){
         if (computerSelection=="paper"){
+            playerPoints++;
             return ("Player wins! Scissors beats Paper");
         }
         else {
+            computerPoints++;
             return ("Computer wins! Rock beats Scissors");
         }
     }
 }
 function playGame(){
-    getChoices();
-    getChoices();
-    getChoices();
-    getChoices();
-    getChoices();
+    for (let i =0;i<5;i++){
+        getChoices();
+    }
+    if(playerPoints>computerPoints){
+        console.log("Player wins!");
+    }
+    else if (playerPoints==computerPoints){
+        console.log ("Draw!");
+    }
+    else {
+        console.log ("Computer wins!");
+    }
 }
 function getChoices(){
     playerSelection = getPlayerChoice();
