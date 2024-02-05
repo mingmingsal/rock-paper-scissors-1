@@ -63,8 +63,16 @@ function playGame() {
     displayText.appendChild(para);
     if (playerPoints ==5) {
         para.textContent = "Player Wins!"
+        disableButtons();
     }
     else if (computerPoints ==5)  {
         para.textContent = "Computer Wins!"
+        disableButtons();
     }
+    
+}
+function disableButtons(){
+    rock.disabled = true;
+    paper.disabled = true;
+    scissors.disabled = true;
 }
