@@ -2,78 +2,69 @@ let playerSelection;
 let computerSelection;
 let playerPoints = 0;
 let computerPoints = 0;
-function getComputerChoice(){
-    const choices = ["rock","paper","scissors"];
-    return choices[Math.floor(Math.random()*choices.length)];
-}
-function getPlayerChoice(){
 
-let input = prompt("Play your hand", "Rock, Paper, Scissors").toLowerCase();
-switch(input){
-    case "rock":
-    case "paper":
-    case "scissors":
-        console.log(input);
-        return input;
-    default:
-        
-        return getPlayerChoice();
-        return "invalid";
+const playerText = document.querySelector("#playerPoints");
+const computerText = document.querySelector("#computerPoints");
+const displayText = document.querySelector("#displayText");
+//adding Event Listeners to Buttons
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+
+rock.addEventListener("click", () => playRound("rock"));
+paper.addEventListener("click", () => playRound("paper"));
+scissors.addEventListener("click", () => playRound("scissors"));
+
+function getComputerChoice() {
+    const choices = ["rock", "paper", "scissors"];
+    return choices[Math.floor(Math.random() * choices.length)];
 }
+function playRound(choice) {
+    playerSelection = choice;
+    computerSelection = getComputerChoice();
+    checkWin(playerSelection, computerSelection);
+
 }
-function playRound(playerSelection, computerSelection){
-    if (playerSelection==computerSelection){
-        return ("Draw!");
+//comapares selections
+function checkWin(playerSelection, computerSelection) {
+    if (playerSelection == computerSelection) {
+        displayWin(0);
     }
-    else if (playerSelection=="rock"){
-        if (computerSelection=="scissors"){
-            playerPoints++;
-            return ("Player wins! Rock beats scissors");
-            
-        }
-        else {
-            computerPoints++;
-            return ("Computer wins! Paper beats Rock");
-        }
-    }
-    else if (playerSelection=="paper"){
-        if (computerSelection=="rock"){
-            playerPoints++;
-            return ("Player wins! Paper beats Rock");
-        }
-        else {
-            computerPoints++;
-            return ("Computer wins! Scissors beats Paper");
-        }
-    }
-    else if (playerSelection=="scissors"){
-        if (computerSelection=="paper"){
-            playerPoints++;
-            return ("Player wins! Scissors beats Paper");
-        }
-        else {
-            computerPoints++;
-            return ("Computer wins! Rock beats Scissors");
-        }
-    }
-}
-function playGame(){
-    for (let i =0;i<5;i++){
-        getChoices();
-    }
-    if(playerPoints>computerPoints){
-        console.log("Player wins!");
-    }
-    else if (playerPoints==computerPoints){
-        console.log ("Draw!");
+    else if ((playerSelection == "rock" && computerSelection == "scissors") || playerSelection == "paper" && computerSelection == "rock" || playerSelection == "scissors" && computerSelection == "paper") {
+        playerPoints++;
+        displayWin(1);
     }
     else {
-        console.log ("Computer wins!");
+        computerPoints++;
+        displayWin(2);
+    }
+    playGame();
+
+}
+//true = player, false = computer
+function displayWin(outcome) {
+    const para = document.createElement("p");
+    displayText.appendChild(para);
+    switch (outcome) {
+        case 1:
+            para.textContent = `Player wins! ${playerSelection} beats ${computerSelection}`
+            break;
+        case 2:
+            para.textContent = `Computer wins! ${computerSelection} beats ${playerSelection}`;
+            break;
+        default:
+            para.textContent = "Draw!";
+    }
+    playerText.textContent=playerPoints;
+    computerText.textContent=computerPoints;
+}
+function playGame() {
+    const para = document.createElement("p");
+    displayText.appendChild(para);
+    if (playerPoints ==5) {
+        para.textContent = "Player Wins!"
+    }
+    else if (computerPoints ==5)  {
+        para.textContent = "Computer Wins!"
     }
 }
-function getChoices(){
-    playerSelection = getPlayerChoice();
-    computerSelection = getComputerChoice();
-    console.log(playRound(playerSelection, computerSelection));
-}
-playGame();
